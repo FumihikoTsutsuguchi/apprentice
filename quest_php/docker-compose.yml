@@ -10,3 +10,4 @@ services:
       - "80:80"
     volumes:
     - ./app:/quest_php/app
+    working_dir: /quest_php/app

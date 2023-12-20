@@ -19,13 +19,12 @@ function calculate(int $num1, int $num2, string $operator)
         case '-':
             return $num1 - $num2;
             break;
-        case '*';
+        case '*':
             return $num1 * $num2;
             break;
-        case '/';
+        case '/':
             return $num1 / $num2;
     }
-
 }
 echo "1番目の整数を入力してください:" . PHP_EOL;
 $num1 = trim(fgets(STDIN));
@@ -42,5 +41,3 @@ try {
 } catch (Exception $e) {
     echo $e->getMessage() . PHP_EOL;
 }
-
-?>
