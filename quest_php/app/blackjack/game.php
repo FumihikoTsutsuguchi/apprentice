@@ -1,10 +1,7 @@
 <?php
-
 namespace blackjack;
 
-require_once "player.php";
-require_once "deck.php";
-require_once "dealer.php";
+require_once "Autoloader.php";
 
 class Game //ゲームの進行を管理
 {

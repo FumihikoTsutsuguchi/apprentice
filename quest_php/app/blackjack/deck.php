@@ -1,9 +1,7 @@
 <?php
-
 namespace blackjack;
 
-require_once "card.php";
-
+require_once "Autoloader.php";
 
 class Deck //山札のデータを管理
 {

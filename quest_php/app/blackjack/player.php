@@ -1,8 +1,7 @@
 <?php
-
 namespace blackjack;
 
-require_once "deck.php";
+require_once "Autoloader.php";
 
 class Player //実行者の手札・実行を管理
 {

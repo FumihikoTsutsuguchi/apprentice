@@ -1,8 +1,7 @@
 <?php
-
 namespace blackjack;
 
-require_once "game.php";
+require_once "Autoloader.php";
 
 $game = new Game;
 $game->start();

@@ -1,5 +1,4 @@
 <?php
-
 namespace blackjack;
 
 class Card //1枚のカードを管理

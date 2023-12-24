@@ -1,9 +1,7 @@
 <?php
-
 namespace blackjack;
 
-require_once "deck.php";
-require_once "player.php";
+require_once "Autoloader.php";
 
 class Dealer extends Player //CPUの手札・実行を管理
 {
