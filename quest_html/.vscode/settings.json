@@ -31,7 +31,7 @@
         {
             "format": "compressed",
             "extensionName": ".css",
-            "savePath": "app/dist/css"
+            "savePath": "/app/dist/css"
         }
     ],
     "liveSassCompile.settings.autoprefix": [">= 5%", "last 2 versions"],
@@ -52,5 +52,4 @@
     "editor.codeActionsOnSave": {
         "source.fixAll.stylelint": true
     },
-    "vscode-w3cvalidation.javaHome": "C:\\Program Files\\Java\\jre-10.0.2"
 }
