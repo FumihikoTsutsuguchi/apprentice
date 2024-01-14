@@ -68,5 +68,6 @@
     <footer class="c-container c-footer">
         <p>Copyright(C) 2020 東京フリーランス ALL Rights Reserved.</p>
     </footer>
+    <script src="js/index.js"></script>
 </body>
 </html>
