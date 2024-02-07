@@ -4,14 +4,23 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Article;
+use App\Models\Tag;
+use App\Models\Comment;
 
 class ArticleController extends Controller
 {
     public function index()
     {
-        $articles = Article::orderBy('id', 'asc')->get();
+        // 記事の取得
+        $articles = Article::orderBy('id', 'desc')->paginate(3);;
+
+        // タグの登録数を集計し、上位10件を取得する
+        $popularTags = Tag::withCount('articles')->orderByDesc('articles_count')->limit(10)->get();
+
+        // ビューにデータを渡す
         return view('home', [
-        "articles" => $articles
+            "articles" => $articles,
+            "popularTags" => $popularTags
         ]);
     }
 
@@ -27,6 +36,15 @@ class ArticleController extends Controller
         $article->description = $request->description;
         $article->body = $request->body;
         $article->save();
+
+        // タグの情報を取得し、コンマで分割して配列に格納
+        $tags = explode(',', $request->tag_list);
+
+        // タグを保存
+        foreach ($tags as $tagName) {
+            $tag = Tag::firstOrCreate(['name' => trim($tagName)]);
+            $article->tags()->attach($tag->id);
+        }
 
         return redirect('/');
     }
@@ -53,9 +71,17 @@ class ArticleController extends Controller
 
     public function article($id)
     {
-        $article = Article::find($id);
+        // $article = Article::find($id);
+        // $comments = $article->comments;
+        // return view('article', [
+        //     "article" => $article,
+        //     "comments" => $comments
+        // ]);
+        $article = Article::with('comments')->find($id);
+        $comments = $article->comments; // コメントを取得
         return view('article', [
-            "article" => $article
+            "article" => $article,
+            "comments" => $comments, // コメントをビューに渡す
         ]);
     }
 
@@ -67,5 +93,4 @@ class ArticleController extends Controller
         }
         return redirect('/');
     }
-
 }

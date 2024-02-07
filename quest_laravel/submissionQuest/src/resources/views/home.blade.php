@@ -46,8 +46,9 @@
                                     <p>{{$article->description}}</p>
                                     <span>Read more...</span>
                                     <ul class="tag-list">
-                                    <li class="tag-default tag-pill tag-outline">realworld</li>
-                                    <li class="tag-default tag-pill tag-outline">implementations</li>
+                                        @foreach($article->tags as $tag)
+                                            <li class="tag-default tag-pill tag-outline">{{$tag->name}}</li>
+                                        @endforeach
                                     </ul>
                                 </a>
                             </div>
@@ -55,13 +56,14 @@
                     @endforeach
 
                     <ul class="pagination">
-                        <li class="page-item active">
-                            <a class="page-link" href="">1</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="">2</a>
-                        </li>
+                        <!-- ページ数のリンク -->
+                       @for ($page = 1; $page <= $articles->lastPage(); $page++)
+                            <li class="page-item{{ $page == $articles->currentPage() ? ' active' : '' }}">
+                                <a href="{{ $articles->url($page) }}" class="page-link">{{ $page }}</a>
+                            </li>
+                        @endfor
                     </ul>
+
                 </div>
 
                 <div class="col-md-3">
@@ -69,14 +71,9 @@
                         <p>Popular Tags</p>
 
                         <div class="tag-list">
-                            <a href="" class="tag-pill tag-default">programming</a>
-                            <a href="" class="tag-pill tag-default">javascript</a>
-                            <a href="" class="tag-pill tag-default">emberjs</a>
-                            <a href="" class="tag-pill tag-default">angularjs</a>
-                            <a href="" class="tag-pill tag-default">react</a>
-                            <a href="" class="tag-pill tag-default">mean</a>
-                            <a href="" class="tag-pill tag-default">node</a>
-                            <a href="" class="tag-pill tag-default">rails</a>
+                            @foreach($popularTags as $tag)
+                                <a href="" class="tag-pill tag-default">{{$tag->name}}</a>
+                            @endforeach
                         </div>
                     </div>
                 </div>

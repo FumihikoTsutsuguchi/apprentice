@@ -50,8 +50,9 @@
                     <!-- <h2 id="introducing-ionic">Introducing RealWorld.</h2> -->
                     <p>{{$article->body}}</p>
                     <ul class="tag-list">
-                        <li class="tag-default tag-pill tag-outline">realworld</li>
-                        <li class="tag-default tag-pill tag-outline">implementations</li>
+                        @foreach($article->tags as $tag)
+                            <li class="tag-default tag-pill tag-outline">{{$tag->name}}</li>
+                        @endforeach
                     </ul>
                 </div>
             </div>
@@ -86,50 +87,43 @@
 
             <div class="row">
                 <div class="col-xs-12 col-md-8 offset-md-2">
-                    <form class="card comment-form">
+                    <form action="/articles/{{$article->id}}/comments" method="post" class="card comment-form">
+                        @csrf
                         <div class="card-block">
-                            <textarea class="form-control" placeholder="Write a comment..." rows="3"></textarea>
+                            <textarea name="body" id="comment-input" class="form-control" placeholder="Write a comment..." rows="3"></textarea>
                         </div>
                         <div class="card-footer">
                             <img src="http://i.imgur.com/Qr71crq.jpg" class="comment-author-img" />
-                            <button class="btn btn-sm btn-primary">Post Comment</button>
+                            <button type="submit" id="post-comment-btn" class="btn btn-sm btn-primary">Post Comment</button>
                         </div>
                     </form>
-
-                    <div class="card">
-                        <div class="card-block">
-                            <p class="card-text">
-                            With supporting text below as a natural lead-in to additional content.
-                            </p>
-                        </div>
-                        <div class="card-footer">
-                            <a href="/profile/author" class="comment-author">
-                            <img src="http://i.imgur.com/Qr71crq.jpg" class="comment-author-img" />
-                            </a>
-                            &nbsp;
-                            <a href="/profile/jacob-schmidt" class="comment-author">Jacob Schmidt</a>
-                            <span class="date-posted">Dec 29th</span>
-                        </div>
-                    </div>
-
-                    <div class="card">
-                        <div class="card-block">
-                            <p class="card-text">
-                            With supporting text below as a natural lead-in to additional content.
-                            </p>
-                        </div>
-                        <div class="card-footer">
-                            <a href="/profile/author" class="comment-author">
-                                <img src="http://i.imgur.com/Qr71crq.jpg" class="comment-author-img" />
-                            </a>
-                            &nbsp;
-                            <a href="/profile/jacob-schmidt" class="comment-author">Jacob Schmidt</a>
-                            <span class="date-posted">Dec 29th</span>
-                            <span class="mod-options">
-                                <i class="ion-trash-a"></i>
-                            </span>
-                        </div>
-                    </div>
+                    @if($comments)
+                        @foreach($comments as $comment)
+                            <div class="card">
+                                <div class="card-block">
+                                    <p class="card-text">{{ $comment->body }}</p>
+                                </div>
+                                <div class="card-footer">
+                                    <? /*
+                                    <a href="{{ $comment->author->profile_url }}" class="comment-author">
+                                        <img src="{{ $comment->author->avatar }}" class="comment-author-img" />
+                                    </a>
+                                    */ ?>
+                                    <a href="/profile/author" class="comment-author">
+                                        <img src="http://i.imgur.com/Qr71crq.jpg" class="comment-author-img" />
+                                    </a>
+                                    &nbsp;
+                                    <a href="/profile/jacob-schmidt" class="comment-author">Jacob Schmidt</a>
+                                    <? /*
+                                    <a href="{{ $comment->author->profile_url }}" class="comment-author">{{ $comment->author->name }}</a>
+                                    */ ?>
+                                    <span class="date-posted">{{ $comment->created_at->format('M dS') }}</span>
+                                </div>
+                            </div>
+                        @endforeach
+                    @else
+                        <p>No comments yet.</p>
+                    @endif
                 </div>
             </div>
         </div>
