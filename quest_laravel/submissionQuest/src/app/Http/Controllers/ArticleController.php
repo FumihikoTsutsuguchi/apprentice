@@ -71,12 +71,6 @@ class ArticleController extends Controller
 
     public function article($id)
     {
-        // $article = Article::find($id);
-        // $comments = $article->comments;
-        // return view('article', [
-        //     "article" => $article,
-        //     "comments" => $comments
-        // ]);
         $article = Article::with('comments')->find($id);
         $comments = $article->comments; // コメントを取得
         return view('article', [
