@@ -15,7 +15,8 @@ RealWorldで作られている「Condit」というMedium.comのクローンサ�
     * Blade
 
 ## 使用方法
-ご利用のPCにNodeやComposerをインストールしなくても大丈夫です。
+Dockerを事前にインストールしてください。
+ご利用のPCにNodeやComposerはインストールしなくても大丈夫です。
 1. 本リポジトリをクローン
 2. `docker compose up -d --build` を実行
 3. `docker compose exec app bash` でappコンテに入る
