@@ -12,6 +12,8 @@
         rel="stylesheet"
         type="text/css"
     />
+    <!-- Scripts (Tailwind.css)) -->
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     <!-- Import the custom Bootstrap 4 theme from our hosted CDN -->
     <link rel="stylesheet" href="//demo.productionready.io/main.css" />
 @endsection

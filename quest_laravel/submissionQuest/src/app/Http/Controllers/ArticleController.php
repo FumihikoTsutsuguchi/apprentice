@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Article;
 use App\Models\Tag;
 use App\Models\Comment;
+use App\Models\User;
 
 class ArticleController extends Controller
 {
@@ -31,7 +32,15 @@ class ArticleController extends Controller
 
     public function createArticle(Request $request)
     {
+        $this->validate($request, [
+            'title' => 'required|max:255',
+            'description' => 'required',
+            'body' => 'required',
+            'tag_list' => 'required'
+        ]);
+
         $article = new Article();
+        $article->user_id = \Auth::id();
         $article->title = $request->title;
         $article->description = $request->description;
         $article->body = $request->body;
@@ -52,6 +61,7 @@ class ArticleController extends Controller
     public function editArticle($id)
     {
         $article = Article::find($id);
+        $this->authorize($article);
         return view('editArticle', [
             "article" => $article
         ]);
@@ -71,14 +81,14 @@ class ArticleController extends Controller
 
     public function article($id)
     {
-        // $article = Article::find($id);
-        // $comments = $article->comments;
-        // return view('article', [
-        //     "article" => $article,
-        //     "comments" => $comments
-        // ]);
         $article = Article::with('comments')->find($id);
         $comments = $article->comments; // コメントを取得
+
+            // コメントに関連付けられたユーザーを取得して、各コメントに追加
+        foreach ($comments as $comment) {
+            $comment->user = User::find($comment->user_id);
+        }
+
         return view('article', [
             "article" => $article,
             "comments" => $comments, // コメントをビューに渡す
@@ -88,6 +98,7 @@ class ArticleController extends Controller
     public function delete($id)
     {
         $article = Article::find($id);
+        $this->authorize($article);
         if ($article) {
             $article->delete();
         }

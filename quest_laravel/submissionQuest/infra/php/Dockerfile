@@ -1,4 +1,12 @@
 FROM php:8.1-fpm-buster
+EXPOSE 5173
+
+# Node.jsのバージョンを指定
+ENV NODE_VERSION 18
+
+# Node.jsのインストール
+RUN curl -fsSL https://deb.nodesource.com/setup_$NODE_VERSION.x | bash - \
+    && apt-get install -y nodejs
 
 ENV COMPOSER_ALLOW_SUPERUSER=1 \
   COMPOSER_HOME=/composer

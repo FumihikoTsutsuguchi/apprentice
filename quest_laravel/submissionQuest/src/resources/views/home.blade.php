@@ -29,12 +29,11 @@
                     </div>
 
                     @foreach($articles as $article)
-
                             <div class="article-preview">
                                 <div class="article-meta">
                                     <a href="/profile/eric-simons"><img src="http://i.imgur.com/Qr71crq.jpg" /></a>
                                     <div class="info">
-                                        <a href="/profile/eric-simons" class="author">Eric Simons</a>
+                                        <a href="/profile/eric-simons" class="author">{{ $article->user->name }}</a>
                                         <span class="date">{{$article->updated_at}}</span>
                                     </div>
                                     <button class="btn btn-outline-primary btn-sm pull-xs-right">
@@ -52,7 +51,6 @@
                                     </ul>
                                 </a>
                             </div>
-
                     @endforeach
 
                     <ul class="pagination">

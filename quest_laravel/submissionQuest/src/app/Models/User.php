@@ -12,6 +12,12 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    // Articleとの一対多のリレーションメソッドを定義
+    public function articles()
+    {
+        return $this->hasMany(Article::class);
+    }
+
     /**
      * The attributes that are mass assignable.
      *

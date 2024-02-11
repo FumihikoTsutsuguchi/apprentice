@@ -18,6 +18,7 @@ class CommentController extends Controller
         $comment = new Comment();
         $comment->article_id = $articleId;
         $comment->body = $request->body;
+        $comment->user_id = \Auth::id();
         $comment->save();
 
         return redirect()->back()->with('success', 'Comment posted successfully.');
