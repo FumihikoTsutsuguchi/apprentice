@@ -125,7 +125,7 @@
                                         <img src="http://i.imgur.com/Qr71crq.jpg" class="comment-author-img" />
                                     </a>
                                     &nbsp;
-                                    <a href="/profile/jacob-schmidt" class="comment-author"></a>
+                                    <a href="/profile/jacob-schmidt" class="comment-author">{{ $comment->user->name }}</a>
                                     <? /*
                                     <a href="{{ $comment->author->profile_url }}" class="comment-author">{{ $comment->author->name }}</a>
                                     */ ?>

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Article;
 use App\Models\Tag;
 use App\Models\Comment;
+use App\Models\User;
 
 class ArticleController extends Controller
 {
@@ -82,6 +83,12 @@ class ArticleController extends Controller
     {
         $article = Article::with('comments')->find($id);
         $comments = $article->comments; // コメントを取得
+
+            // コメントに関連付けられたユーザーを取得して、各コメントに追加
+        foreach ($comments as $comment) {
+            $comment->user = User::find($comment->user_id);
+        }
+
         return view('article', [
             "article" => $article,
             "comments" => $comments, // コメントをビューに渡す
