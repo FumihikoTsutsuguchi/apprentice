@@ -13,18 +13,21 @@
                 <div class="article-meta">
                     <a href="/profile/eric-simons"><img src="http://i.imgur.com/Qr71crq.jpg" /></a>
                     <div class="info">
-                        <a href="/profile/eric-simons" class="author">Eric Simons</a>
-                        <span class="date">January 20th</span>
+                        <a href="/profile/eric-simons" class="author">{{ $article->user->name }}</a>
+                        <span class="date">{{ $article->user->created_at }}</span>
                     </div>
+                    @cannot('editArticle', $article)
                     <button class="btn btn-sm btn-outline-secondary">
                         <i class="ion-plus-round"></i>
-                        &nbsp; Follow Eric Simons <span class="counter">(10)</span>
+                        &nbsp; Follow {{ $article->user->name }} <span class="counter">(10)</span>
                     </button>
+                    @endcan
                         &nbsp;&nbsp;
                     <button class="btn btn-sm btn-outline-primary">
                         <i class="ion-heart"></i>
                         &nbsp; Favorite Post <span class="counter">(29)</span>
                     </button>
+                    @can('editArticle', $article)
                     <button class="btn btn-sm btn-outline-secondary">
                         <a href="/edit-article/{{$article->id}}">
                             <i class="ion-edit"></i> Edit Article
@@ -37,6 +40,7 @@
                             <i class="ion-trash-a"></i> Delete Article
                         </button>
                     </form>
+                    @endcan
                 </div>
             </div>
         </div>
@@ -47,7 +51,6 @@
                     <p>
                     {{$article->description}}
                     </p>
-                    <!-- <h2 id="introducing-ionic">Introducing RealWorld.</h2> -->
                     <p>{{$article->body}}</p>
                     <ul class="tag-list">
                         @foreach($article->tags as $tag)
@@ -63,25 +66,34 @@
                 <div class="article-meta">
                     <a href="profile.html"><img src="http://i.imgur.com/Qr71crq.jpg" /></a>
                     <div class="info">
-                        <a href="" class="author">Eric Simons</a>
-                        <span class="date">January 20th</span>
+                        <a href="" class="author">{{ $article->user->name }}</a>
+                        <span class="date">{{ $article->user->created_at }}</span>
                     </div>
-
-                    <button class="btn btn-sm btn-outline-secondary">
+                    @cannot('editArticle', $article)
+                    <button class="btn btn-sm btn-outline-secondary active">
                         <i class="ion-plus-round"></i>
-                        &nbsp; Follow Eric Simons
+                        &nbsp; Follow {{ $article->user->name }}
                     </button>
+                    @endcan
                         &nbsp;
                     <button class="btn btn-sm btn-outline-primary">
                         <i class="ion-heart"></i>
                         &nbsp; Favorite Article <span class="counter">(29)</span>
                     </button>
+                    @can('editArticle', $article)
                     <button class="btn btn-sm btn-outline-secondary">
-                        <i class="ion-edit"></i> Edit Article
+                        <a href="/edit-article/{{$article->id}}">
+                            <i class="ion-edit"></i> Edit Article
+                        </a>
                     </button>
-                    <button class="btn btn-sm btn-outline-danger">
-                        <i class="ion-trash-a"></i> Delete Article
-                    </button>
+                    <form action="/delete/{{$article->id}}" method="post" style="display: inline;">
+                        @csrf
+                        @method('DELETE')
+                        <button class="btn btn-sm btn-outline-danger" onclick="return confirm('本当に削除していいですか?')">
+                            <i class="ion-trash-a"></i> Delete Article
+                        </button>
+                    </form>
+                    @endcan
                 </div>
             </div>
 
@@ -113,11 +125,11 @@
                                         <img src="http://i.imgur.com/Qr71crq.jpg" class="comment-author-img" />
                                     </a>
                                     &nbsp;
-                                    <a href="/profile/jacob-schmidt" class="comment-author">Jacob Schmidt</a>
+                                    <a href="/profile/jacob-schmidt" class="comment-author"></a>
                                     <? /*
                                     <a href="{{ $comment->author->profile_url }}" class="comment-author">{{ $comment->author->name }}</a>
                                     */ ?>
-                                    <span class="date-posted">{{ $comment->created_at->format('M dS') }}</span>
+                                    <span class="date-posted">{{ $comment->created_at }}</span>
                                 </div>
                             </div>
                         @endforeach
