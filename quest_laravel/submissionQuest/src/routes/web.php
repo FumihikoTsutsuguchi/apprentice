@@ -54,9 +54,3 @@ Route::delete('/delete/{id}', [ArticleController::class, 'delete']);
 // コメントの追加
 Route::post('/articles/{id}/comments', [CommentController::class, 'store'])->name('comments.store');
 
-// // ログインページ
-// Route::get('/login', [AuthenticationController::class, 'login']);
-
-// // アカウント作成ページ(Register)
-// Route::get('/register', [AuthenticationController::class, 'register']);
-// Route::post('/register', [RegisterController::class, 'store']);

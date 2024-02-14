@@ -13,7 +13,7 @@ class ArticleController extends Controller
     public function index()
     {
         // 記事の取得
-        $articles = Article::orderBy('id', 'desc')->paginate(3);;
+        $articles = Article::orderBy('id', 'desc')->paginate(10);;
 
         // タグの登録数を集計し、上位10件を取得する
         $popularTags = Tag::withCount('articles')->orderByDesc('articles_count')->limit(10)->get();
