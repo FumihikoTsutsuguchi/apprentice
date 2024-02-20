@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TodoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,6 +19,10 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/health', function () {
-    return response()->json(['status' => 'success']);
-});
+Route::post('/todos', [TodoController::class, 'create']);
+
+Route::get('/todos', [TodoController::class, 'index']);
+
+Route::put('/todos/{id}', [TodoController::class, 'update']);
+
+Route::delete('/todos/{id}', [TodoController::class, 'delete']);
