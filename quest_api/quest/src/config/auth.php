@@ -14,7 +14,7 @@ return [
     */
 
     'defaults' => [
-        'guard' => 'api',
+        'guard' => 'web',
         'passwords' => 'users',
     ],
 
@@ -41,10 +41,10 @@ return [
             'provider' => 'users',
         ],
         /* api with token */
-        'api' => [
-            'driver' => 'jwt',
+        // 'api' => [
+            // 'driver' => 'jwt',
             'provider' => 'users',
-        ],
+        // ],
     ],
 
     /*
