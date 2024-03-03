@@ -43,10 +43,10 @@ class User extends Authenticatable
     ];
 
     public function articles() {
-        return $this->hasMany('App\Models\Article');
+        return $this->hasMany(Article::class);
     }
 
-    // public function favorites() {
-    //     return $this->hasMany('App\Models\Favorite');
-    // }
+    public function favorites() {
+        return $this->hasMany(Favorite::class);
+    }
 }
