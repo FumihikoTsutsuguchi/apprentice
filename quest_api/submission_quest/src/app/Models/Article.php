@@ -13,4 +13,17 @@ class Article extends Model
     {
         return 'slug';
     }
+
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class, 'article_tags');
+    }
+
+    public function user() {
+        return $this->belongsTo('App\Models\User');
+    }
+
+    public function favorites() {
+        return $this->hasMany('App\Models\Favorite');
+    }
 }

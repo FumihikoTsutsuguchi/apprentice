@@ -26,21 +26,12 @@ Route::post('/users', [UsersController::class, 'create']);
 
 Route::post('/users/login', [AuthController::class, 'login'])->name('login');
 
-Route::get('/articles/{article:slug}', function (Article $article) {
-    return [
-        'article' => [
-            'title' => $article->title,
-            'slug' => $article->slug,
-            'description' => $article->description,
-            'body' => $article->body,
-            'createdAt' => $article->created_at,
-            'updatedAt' => $article->updated_at,
-        ]
-    ];
-});
+Route::get('/articles/{article:slug}', [ArticleController::class, 'get'])->name('name');
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/articles', [ArticleController::class, 'create'])->name('create');
-    Route::put('/articles/{article:slug}', [ArticleController::class, 'update']);
-    Route::delete('/articles/{article:slug}', [ArticleController::class, 'delete']);
+    Route::put('/articles/{article:slug}', [ArticleController::class, 'update'])->name('update');
+    Route::delete('/articles/{article:slug}', [ArticleController::class, 'delete'])->name('delete');
+    Route::post('/articles/{article:slug}/favorite', [ArticleController::class, 'favorite'])->name('favorite');
+    Route::delete('/articles/{article:slug}/favorite', [ArticleController::class, 'unfavorite'])->name('unfavorite');
 });
