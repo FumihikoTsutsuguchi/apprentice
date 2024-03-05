@@ -14,9 +14,13 @@ class ArticleController extends Controller
 
     public function create(Request $request)
     {
+        /**
+         * if elseはなるべく使わないようにする（おそらく認証専用のクラスがある？？）
+         * サービスクラスに集約するのがおすすめ
+         */
+
         // 認証済みユーザーを取得
         $user = Auth::user();
-
         // ユーザーが認証されているかチェック
         if ($user) {
             $article = new Article();
