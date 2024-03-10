@@ -1,11 +1,28 @@
-import "./Example.css";
+// import Child from "./component/Child";
+import {Cat} from "./component/Cat";
 
-const Example = () => {
-  return (
-    <div className="component">
-      <h3>Hello Component</h3>
-    </div>
-  );
+import "./component/Child.css";
+
+const Card = ({ children }) => {
+    return (
+        <div className="card">
+            { children }
+        </div>
+    );
+}
+
+const CatList = () => {
+    return (
+        <Card>
+            <h1>Cute Cat</h1>
+            <Cat
+                size={ 150 }
+            />
+            <Cat
+                size={ 150 }
+            />
+        </Card>
+    );
 };
 
-export default Example;
+export default CatList;
