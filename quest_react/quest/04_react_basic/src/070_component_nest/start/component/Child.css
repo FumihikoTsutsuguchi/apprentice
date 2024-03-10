@@ -1,0 +1,25 @@
+.App-start .component {
+    padding: 1rem;
+    color: blue;
+    border: 5px solid blue;
+}
+
+.App-start .card {
+    border: 8px solid palevioletred;
+}
+
+/* .App-start .cat {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    margin-bottom: 20px;
+    img {
+        object-fit: cover;
+        width: 100%;
+        height: 100%;
+    }
+} */
+
+/* .App-start .cat.border {
+    border: 8px solid palevioletred;
+} */

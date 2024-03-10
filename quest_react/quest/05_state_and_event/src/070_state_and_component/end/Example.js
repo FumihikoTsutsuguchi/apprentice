@@ -6,6 +6,7 @@ const Example = () => {
   const toggleComponent = () => {
     setToggle(prev => !prev);
   }
+  
   return (
     <>
     {/* POINT コンポーネントの位置によってstateが識別される */}
