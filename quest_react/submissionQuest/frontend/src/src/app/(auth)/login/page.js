@@ -15,7 +15,7 @@ const Login = () => {
 
     const { login } = useAuth({
         middleware: 'guest',
-        redirectIfAuthenticated: '/dashboard',
+        redirectIfAuthenticated: '/',
     })
 
     const [email, setEmail] = useState('')
@@ -49,14 +49,14 @@ const Login = () => {
             <AuthSessionStatus className="mb-4" status={status} />
             <form onSubmit={submitForm}>
                 {/* Email Address */}
-                <div>
+                <div className="form-group">
                     <Label htmlFor="email">Email</Label>
 
                     <Input
                         id="email"
                         type="email"
                         value={email}
-                        className="block mt-1 w-full"
+                        className="form-control form-control-lg"
                         onChange={event => setEmail(event.target.value)}
                         required
                         autoFocus
@@ -66,14 +66,14 @@ const Login = () => {
                 </div>
 
                 {/* Password */}
-                <div className="mt-4">
+                <div className="form-group">
                     <Label htmlFor="password">Password</Label>
 
                     <Input
                         id="password"
                         type="password"
                         value={password}
-                        className="block mt-1 w-full"
+                        className="form-control form-control-lg"
                         onChange={event => setPassword(event.target.value)}
                         required
                         autoComplete="current-password"
@@ -113,7 +113,7 @@ const Login = () => {
                         Forgot your password?
                     </Link>
 
-                    <Button className="ml-3">Login</Button>
+                    <Button className="ml-3">Sign in</Button>
                 </div>
             </form>
         </>
