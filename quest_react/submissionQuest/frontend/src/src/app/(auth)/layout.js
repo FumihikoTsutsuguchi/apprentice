@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import AuthCard from '@/app/(auth)/AuthCard'
 import ApplicationLogo from '@/components/ApplicationLogo'
+import LoginLinks from '@/app/LoginLinks'
 
 export const metadata = {
     title: 'Laravel',
@@ -8,16 +9,19 @@ export const metadata = {
 
 const Layout = ({ children }) => {
     return (
-        <div>
-            <div className="font-sans text-gray-900 antialiased">
-                <AuthCard
-                    logo={
-                        <Link href="/">
-                            <ApplicationLogo className="w-20 h-20 fill-current text-gray-500" />
-                        </Link>
-                    }>
-                    {children}
-                </AuthCard>
+        <div className="auth-page">
+            <LoginLinks />
+            <div className="container page">
+                <div className="row">
+                    <div className="col-md-6 offset-md-3 col-xs-12">
+                        <h1 class="text-xs-center">Sign in</h1>
+                        <p class="text-xs-center">
+                            <a href="/register">Need an account?</a>
+                        </p>
+
+                        {children}
+                    </div>
+                </div>
             </div>
         </div>
     )

@@ -114,7 +114,7 @@ const Page = () => {
                     Already registered?
                 </Link>
 
-                <Button className="ml-4">Register</Button>
+                <Button className="ml-4">Sign up</Button>
             </div>
         </form>
     )
