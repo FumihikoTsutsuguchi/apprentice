@@ -25,7 +25,7 @@ services:
     volumes:
       - mysql-volume:/var/lib/mysql
     environment:
-      MYSQL_DATABASE: bulletin-board
+      MYSQL_DATABASE: next
       MYSQL_ROOT_PASSWORD: password
 volumes:
   mysql-volume:

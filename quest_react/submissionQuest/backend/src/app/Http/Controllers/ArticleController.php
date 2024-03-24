@@ -11,6 +11,39 @@ use Illuminate\Support\Str;
 
 class ArticleController extends Controller
 {
+    public function articles(Request $request)
+    {
+        // 記事を取得
+        $articles = Article::with('tags') // タグ情報も同時に取得
+                    ->get()
+                    ->map(function ($article) {
+                        // タグ名の配列を作成
+                        $tagNames = $article->tags->map(function ($tag) {
+                            return $tag->name;
+                        })->toArray();
+
+                        // 必要な情報のみを含む新しい配列を返す
+                        return [
+                            'slug' => $article->slug,
+                            'title' => $article->title,
+                            'description' => $article->description,
+                            'body' => $article->body,
+                            'tagList' => $tagNames,
+                            'createdAt' => $article->created_at->toIso8601String(),
+                            'updatedAt' => $article->updated_at->toIso8601String(),
+                            'favorited' => false, // 実際のアプリケーションでは、お気に入り状態を適切に設定
+                            'favoritesCount' => 0, // 実際のアプリケーションでは、お気に入りの数を計算
+                        ];
+                    });
+
+        // 応答用のデータを作成
+        $response = [
+            'articles' => $articles,
+            'articlesCount' => $articles->count(),
+        ];
+
+        return response()->json($response);
+    }
 
     public function create(Request $request)
     {
@@ -19,13 +52,9 @@ class ArticleController extends Controller
          * サービスクラスに集約するのがおすすめ
          */
 
-        // 認証済みユーザーを取得
-        $user = Auth::user();
-        // ユーザーが認証されているかチェック
-        if ($user) {
             $article = new Article();
             $article->title = $request->input('title');
-            $article->slug = Str::slug($request->title);;
+            $article->slug = Str::slug($request->title);
             $article->description = $request->input('description');
             $article->body = $request->input('body');
             $article->save();
@@ -49,9 +78,7 @@ class ArticleController extends Controller
                 'createdAt' => $article->created_at,
                 'updatedAt' => $article->updated_at,
             ]], 201);
-        } else {
-            return response()->json(['error' => 'Unauthorized'], 401);
-        }
+
     }
 
     public function update(Request $request, Article $article)

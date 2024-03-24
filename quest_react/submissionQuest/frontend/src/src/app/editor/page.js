@@ -1,9 +1,8 @@
+"use client"
+
 import LoginLinks from '@/app/LoginLinks'
 import { useState } from 'react'
-
-export const metadata = {
-    title: 'conduit',
-}
+import axios from '@/lib/axios';
 
 const Editor = () => {
     const [title, setTitle] = useState('')
@@ -11,25 +10,31 @@ const Editor = () => {
     const [body, setBody] = useState('')
     const [tags, setTags] = useState('')
 
+
     const publishArticle = async () => {
         try {
-            const response = await fetch('/api/articles', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
+            // 記事データの構造を修正
+            const articleData = {
+                article: {
                     title,
                     description,
                     body,
-                    tags,
-                }),
-            });
-            const data = await response.json();
-            console.log(data); // API レスポンスをコンソールに出力
-            // レスポンスの処理を追加する場合はここに記述
+                    tagList: tags.split(',').map(tag => tag.trim()), // タグを配列に変換
+                },
+            };
+            console.log(articleData); // 送信データを確認
+
+            // axiosインスタンスを使用してPOSTリクエストを送信
+            const response = await axios.post('/api/articles', articleData);
+
+            console.log(response.data);
+            // 成功時の処理（例：投稿後のリダイレクトなど）
         } catch (error) {
             console.error('Error publishing article:', error);
+            if (error.response && error.response.data.errors) {
+                // エラーメッセージをstateにセット
+                setErrors(Object.entries(error.response.data.errors).map(([key, value]) => `${key} ${value.join(", ")}`));
+            }
         }
     };
 
