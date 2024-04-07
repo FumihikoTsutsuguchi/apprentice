@@ -1,4 +1,4 @@
-export default function NavLink() {
+export const NavLink = () => {
     return (
         <>
             <nav className="navbar navbar-light">
@@ -21,6 +21,12 @@ export default function NavLink() {
                         <li className="nav-item">
                             <a className="nav-link" href="/register">
                                 Sign up
+                            </a>
+                        </li>
+                        <li className="nav-item">
+                            <a className="nav-link" href="/editor">
+                                {" "}
+                                <i className="ion-compose"></i>&nbsp;New Article{" "}
                             </a>
                         </li>
                     </ul>

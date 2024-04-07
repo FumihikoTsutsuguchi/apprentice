@@ -1,46 +1,44 @@
 "use client";
 
 import React, { useState } from "react";
-import axios from "axios";
 
 export default function Register() {
-    // ステートを使用してユーザー入力を管理
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [errors, setErrors] = useState([]);
 
-
-    // ユーザー登録を処理する関数
     const handleSubmit = async (e) => {
-        e.preventDefault(); // フォームのデフォルトの送信を防ぐ
-        // 送信データの構造を確認
+        e.preventDefault();
+
         const userData = {
-            user: { email, password, username }
+            email,
+            password,
+            username,
         };
 
-        // コンソールで送信データの構造を出力
-        console.log(userData);
         // エラーをクリア
         setErrors([]);
 
         try {
-            // APIにPOSTリクエストを送信
-            const response = await axios.post("http://localhost:6060/api/users", {
-                user: { email, password, username }
+            const res = await fetch("http://localhost:6060/api/users", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-Requested-With": "XMLHttpRequest",
+                },
+                body: JSON.stringify(userData),
             });
 
-            // 応答からユーザー情報を取得（ここで何かしらの認証処理を実行するかもしれません）
-            console.log(response.data);
 
             // 登録後の処理（例：ユーザーをホームページにリダイレクトするなど）
         } catch (error) {
-            if (error.response) {
+            if (error.res) {
                 // サーバーからの応答本文をログに記録
-                console.log(error.response.data);
+                console.log(error.res.data);
                 // ここでエラーメッセージを取り出してstateにセット
-                if (error.response.data.errors) {
-                    setErrors(Object.entries(error.response.data.errors).map(([key, value]) => `${key} ${value.join(", ")}`));
+                if (error.res.data.errors) {
+                    setErrors(Object.entries(error.res.data.errors).map(([key, value]) => `${key} ${value.join(", ")}`));
                 }
             } else {
                 // サーバーからの応答がない場合のエラー処理

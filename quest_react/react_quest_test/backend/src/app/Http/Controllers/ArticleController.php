@@ -11,6 +11,39 @@ use Illuminate\Support\Str;
 
 class ArticleController extends Controller
 {
+    public function articles(Request $request)
+    {
+        // 記事を取得
+        $articles = Article::with('tags') // タグ情報も同時に取得
+                    ->get()
+                    ->map(function ($article) {
+                        // タグ名の配列を作成
+                        $tagNames = $article->tags->map(function ($tag) {
+                            return $tag->name;
+                        })->toArray();
+
+                        // 必要な情報のみを含む新しい配列を返す
+                        return [
+                            'slug' => $article->slug,
+                            'title' => $article->title,
+                            'description' => $article->description,
+                            'body' => $article->body,
+                            'tagList' => $tagNames,
+                            'createdAt' => $article->created_at,
+                            'updatedAt' => $article->updated_at,
+                            'favorited' => false,
+                            'favoritesCount' => 0,
+                        ];
+                    });
+
+        // 応答用のデータを作成
+        $response = [
+            'articles' => $articles,
+            'articlesCount' => $articles->count(),
+        ];
+
+        return response()->json($response);
+    }
 
     public function create(Request $request)
     {
@@ -25,7 +58,7 @@ class ArticleController extends Controller
         if ($user) {
             $article = new Article();
             $article->title = $request->input('title');
-            $article->slug = Str::slug($request->title);;
+            $article->slug = Str::slug($request->title,'-');;
             $article->description = $request->input('description');
             $article->body = $request->input('body');
             $article->save();
@@ -80,6 +113,7 @@ class ArticleController extends Controller
             // 既存のslugと異なる場合のみ更新
             if ($article->slug !== $newSlug) {
                 $article->slug = $newSlug;
+                $article->save();
             }
 
             return response()->json(['article' => [

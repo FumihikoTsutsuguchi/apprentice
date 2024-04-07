@@ -19,13 +19,12 @@ services:
     ports:
       - 3006:3000
   mysql:
-    image: mysql:8.0
+    build:
+      context: ./db
+      dockerfile: Dockerfile
     ports:
       - 6001:3306
     volumes:
       - mysql-volume:/var/lib/mysql
-    environment:
-      MYSQL_DATABASE: react
-      MYSQL_ROOT_PASSWORD: password
 volumes:
   mysql-volume:

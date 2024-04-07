@@ -18,15 +18,16 @@ use App\Models\Article;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
 
 Route::post('/users', [UsersController::class, 'create']);
 
 Route::post('/users/login', [AuthController::class, 'login'])->name('login');
 
-Route::get('/articles/{article:slug}', [ArticleController::class, 'get'])->name('name');
+Route::get('/articles/{article:slug}', [ArticleController::class, 'get'])->name('getArticle');
+Route::get('/articles', [ArticleController::class, 'articles'])->name('articles');
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/articles', [ArticleController::class, 'create'])->name('create');

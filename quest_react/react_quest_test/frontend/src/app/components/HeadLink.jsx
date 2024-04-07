@@ -1,4 +1,4 @@
-const HeadLink = () => {
+export const HeadLink = () => {
     return (
         <head>
             <link
@@ -15,5 +15,3 @@ const HeadLink = () => {
         </head>
     )
 }
-
-export default HeadLink
