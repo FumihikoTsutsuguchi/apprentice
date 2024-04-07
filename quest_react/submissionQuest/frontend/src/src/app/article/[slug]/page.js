@@ -1,17 +1,43 @@
-import LoginLinks from '@/app/LoginLinks'
 
-export const metadata = {
-    title: 'conduit',
+"use client";
+
+import { useEffect, useState } from 'react';
+// import { fetchArticle } from 'path/to/your/api'; // APIから記事を取得する関数
+
+import axios from 'axios';
+export async function generateStaticParams() {
+  const posts = await fetch('http://localhost:8080/api/articles/').then(res => res.json());
+  return posts.map(post => ({ params: { slug: post.slug } }));
 }
 
-const article = () => {
+// 指定されたslugの記事データを取得する関数
+export async function fetchArticle(slug) {
+  try {
+    const response = await axios.get(`http://localhost:8080/api/articles/${slug}`);
+    return response.data; // 取得した記事データ
+  } catch (error) {
+    console.error('記事の取得中にエラーが発生しました:', error);
+    throw error;
+  }
+}
+
+const ArticlePage = ({ params }) => {
+  const [article, setArticle] = useState(null);
+
+  useEffect(() => {
+    // 記事データをフェッチする
+    if (params && params.slug) {
+      fetchArticle(params.slug).then(setArticle);
+    }
+  }, [params.slug]);
+
     return (
         <>
             <div className="article-page">
                 <LoginLinks />
                 <div className="banner">
                     <div className="container">
-                        <h1>How to build webapps that scale</h1>
+                        <h1>{article.title}</h1>
                         <div className="article-meta">
                             <a href="/profile/eric-simons">
                                 <img src="http://i.imgur.com/Qr71crq.jpg" />
@@ -48,23 +74,17 @@ const article = () => {
                     <div className="row article-content">
                         <div className="col-md-12">
                             <p>
-                                Web development technologies have evolved at an
-                                incredible clip over the past few years.
+                                {article.description}
                             </p>
-                            <h2 id="introducing-ionic">
-                                Introducing RealWorld.
-                            </h2>
                             <p>
-                                It's a great solution for learning how other
-                                frameworks work.
+                                {article.body}
                             </p>
                             <ul className="tag-list">
-                                <li className="tag-default tag-pill tag-outline">
-                                    realworld
-                                </li>
-                                <li className="tag-default tag-pill tag-outline">
-                                    implementations
-                                </li>
+                                {article.tagList.map(tag => (
+                                    <li key={tag} className="tag-default tag-pill tag-outline">
+                                        {tag}
+                                    </li>
+                                ))}
                             </ul>
                         </div>
                     </div>
@@ -184,4 +204,4 @@ const article = () => {
     )
 }
 
-export default article
+export default ArticlePage

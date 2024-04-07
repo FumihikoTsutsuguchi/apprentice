@@ -1,16 +1,31 @@
-import LoginLinks from '@/app/LoginLinks'
+"use client";
 
-export const metadata = {
-    title: 'conduit',
-}
+import { useEffect, useState } from 'react';
+import LoginLinks from '@/app/LoginLinks';
+import axios from '@/lib/axios'; // axiosのインスタンスが設定されたものを仮定
 
 const Home = () => {
+    // 記事データを保持するための状態
+    const [articles, setArticles] = useState([]);
+
+    useEffect(() => {
+        // 記事データを取得する非同期関数
+        const fetchArticles = async () => {
+            try {
+                const response = await axios.get('/api/articles');
+                setArticles(response.data.articles); // 取得した記事データを状態にセット
+            } catch (error) {
+                console.error('Error fetching articles:', error);
+            }
+        };
+
+        fetchArticles();
+    }, []); // 依存配列を空にすることで、コンポーネントのマウント時にのみ実行
+
     return (
         <>
             <div className="home-page">
-                
                 <LoginLinks />
-
                 <div className="banner">
                     <div className="container">
                         <h1 className="logo-font">conduit</h1>
@@ -23,139 +38,55 @@ const Home = () => {
                             <div className="feed-toggle">
                                 <ul className="nav nav-pills outline-active">
                                     <li className="nav-item">
-                                        <a className="nav-link" href="">
-                                            Your Feed
-                                        </a>
+                                        <a className="nav-link" href="">Your Feed</a>
                                     </li>
                                     <li className="nav-item">
-                                        <a className="nav-link active" href="">
-                                            Global Feed
-                                        </a>
+                                        <a className="nav-link active" href="">Global Feed</a>
                                     </li>
                                 </ul>
                             </div>
-                            <div className="article-preview">
-                                <div className="article-meta">
-                                    <a href="/profile/eric-simons">
-                                        <img src="http://i.imgur.com/Qr71crq.jpg" />
-                                    </a>
-                                    <div className="info">
-                                        <a
-                                            href="/profile/eric-simons"
-                                            className="author">
-                                            Eric Simons
+                            {/* 記事データをマップして表示 */}
+                            {articles.map((article, index) => (
+                                <div key={index} className="article-preview">
+                                    <div className="article-meta">
+                                        <a href="">
+                                            <img src="http://i.imgur.com/Qr71crq.jpg" />
                                         </a>
-                                        <span className="date">
-                                            January 20th
-                                        </span>
+                                        <div className="info">
+                                            <a href="" className="author">
+                                                Eric Simons
+                                            </a>
+                                            <span className="date">
+                                                {new Date(article.createdAt).toLocaleDateString()}
+                                            </span>
+                                        </div>
+                                        <button className="btn btn-outline-primary btn-sm pull-xs-right">
+                                            <i className="ion-heart" /> {article.favoritesCount}
+                                        </button>
                                     </div>
-                                    <button className="btn btn-outline-primary btn-sm pull-xs-right">
-                                        <i className="ion-heart" /> 29
-                                    </button>
+                                    <a href={`/article/${article.slug}`} className="preview-link">
+                                        <h1>{article.title}</h1>
+                                        <p>{article.description}</p>
+                                        <span>Read more...</span>
+                                        <ul className="tag-list">
+                                            {article.tagList.map((tag, tagIndex) => (
+                                                <li key={tagIndex} className="tag-default tag-pill tag-outline">
+                                                    {tag}
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </a>
                                 </div>
-                                <a
-                                    href="/article/how-to-build-webapps-that-scale"
-                                    className="preview-link">
-                                    <h1>How to build webapps that scale</h1>
-                                    <p>This is the description for the post.</p>
-                                    <span>Read more...</span>
-                                    <ul className="tag-list">
-                                        <li className="tag-default tag-pill tag-outline">
-                                            realworld
-                                        </li>
-                                        <li className="tag-default tag-pill tag-outline">
-                                            implementations
-                                        </li>
-                                    </ul>
-                                </a>
-                            </div>
-                            <div className="article-preview">
-                                <div className="article-meta">
-                                    <a href="/profile/albert-pai">
-                                        <img src="http://i.imgur.com/N4VcUeJ.jpg" />
-                                    </a>
-                                    <div className="info">
-                                        <a
-                                            href="/profile/albert-pai"
-                                            className="author">
-                                            Albert Pai
-                                        </a>
-                                        <span className="date">
-                                            January 20th
-                                        </span>
-                                    </div>
-                                    <button className="btn btn-outline-primary btn-sm pull-xs-right">
-                                        <i className="ion-heart" /> 32
-                                    </button>
-                                </div>
-                                <a
-                                    href="/article/the-song-you"
-                                    className="preview-link">
-                                    <h1>
-                                        The song you won't ever stop singing. No
-                                        matter how hard you try.
-                                    </h1>
-                                    <p>This is the description for the post.</p>
-                                    <span>Read more...</span>
-                                    <ul className="tag-list">
-                                        <li className="tag-default tag-pill tag-outline">
-                                            realworld
-                                        </li>
-                                        <li className="tag-default tag-pill tag-outline">
-                                            implementations
-                                        </li>
-                                    </ul>
-                                </a>
-                            </div>
-                            <ul className="pagination">
-                                <li className="page-item active">
-                                    <a className="page-link" href="">
-                                        1
-                                    </a>
-                                </li>
-                                <li className="page-item">
-                                    <a className="page-link" href="">
-                                        2
-                                    </a>
-                                </li>
-                            </ul>
+                            ))}
                         </div>
                         <div className="col-md-3">
-                            <div className="sidebar">
-                                <p>Popular Tags</p>
-                                <div className="tag-list">
-                                    <a href="" className="tag-pill tag-default">
-                                        programming
-                                    </a>
-                                    <a href="" className="tag-pill tag-default">
-                                        javascript
-                                    </a>
-                                    <a href="" className="tag-pill tag-default">
-                                        emberjs
-                                    </a>
-                                    <a href="" className="tag-pill tag-default">
-                                        angularjs
-                                    </a>
-                                    <a href="" className="tag-pill tag-default">
-                                        react
-                                    </a>
-                                    <a href="" className="tag-pill tag-default">
-                                        mean
-                                    </a>
-                                    <a href="" className="tag-pill tag-default">
-                                        node
-                                    </a>
-                                    <a href="" className="tag-pill tag-default">
-                                        rails
-                                    </a>
-                                </div>
-                            </div>
+                            {/* サイドバーのコンテンツ */}
                         </div>
                     </div>
                 </div>
             </div>
         </>
-    )
-}
+    );
+};
 
-export default Home
+export default Home;
