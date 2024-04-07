@@ -98,6 +98,9 @@ class ArticleController extends Controller
             $article->body = $request->input('body');
             $article->save();
 
+            // 既存のタグをすべて削除
+            $article->tags()->detach();
+
             // タグの情報を取得し、コンマで分割して配列に格納
             $tags = explode(',', $request->input('tags'));
 
