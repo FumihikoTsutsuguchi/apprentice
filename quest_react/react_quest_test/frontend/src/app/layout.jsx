@@ -1,7 +1,7 @@
-import {HeadLink} from '@/app/components/HeadLink'
+import {HeadLink} from './components/HeadLink'
 import { Inter } from "next/font/google";
 import "./globals.css";
-import {NavLink} from "@/app/components/NavLink";
+import {NavLink} from "./components/NavLink";
 
 const inter = Inter({ subsets: ["latin"] });
 
